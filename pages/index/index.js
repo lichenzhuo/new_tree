@@ -36,8 +36,7 @@ Page({
     showGif: false,
     myTreeImgUrlGif: ''
   },
-  onLoad() {
-  },
+  onLoad() {},
   async onShow() {
     let that = this
     wx.login({
@@ -84,7 +83,7 @@ Page({
     })
   },
   // 开始动画
-  startAnimation(){
+  startAnimation() {
     this.animation = wx.createAnimation({
       duration: 100,
       timingFunction: 'linear',
@@ -168,78 +167,73 @@ Page({
     }
   },
   // 获取当前我种的树信息
-  async getMyTree(type, text) {
+  async getMyTree(type, time, text) {
     this.startAnimation()
-    // wx.showLoading()
     let that = this
     const Sign = util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     const token = wx.getStorageSync('token')
     let result = await Api.getMyTreeApi(token, Sign)
     // wx.hideLoading()
     const resultData = result.data
-    if (resultData.IsSuccess) {
-      if (resultData.Data) {
-        if (resultData.Data.BackgroundPicurl) {
-          this.setData({
-            BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
-          })
-        }
-        if (type) {
-          that.setData({
-            showGif: true,
-            myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
-            myTreeData: resultData.Data,
-            myScore: resultData.Data.Integral,
-            myEnergy: resultData.Data.StorageEnergy,
-            treePercent: resultData.Data.Ratio,
-            treePercentWidth: resultData.Data.Ratio * 220,
-            myTreeImgUrl: imgUrl + resultData.Data.Picurl
-          }, () => {
-            setTimeout(() => {
-              that.setData({
-                showGif: false,
-                showOverShare: true,
-                overShareText: text
-              }, () => {
-                setTimeout(() => {
-                  that.setData({
-                    showOverShare: false,
-                    overShareText: ''
-                  })
-                }, 1000)
+    if (type === 'delay') {
+      setTimeout(() => {
+        if (resultData) {
+          wx.hideLoading()
+            if (resultData.Data.BackgroundPicurl) {
+              this.setData({
+                BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
               })
-            }, Number(resultData.Data.gifTime) * 1000)
-          })
-          // that.setData({
-          //   showOverShare: true,
-          //   overShareText: resultData.Data.tips
-          // }, () => {
-          //   setTimeout(() => {
-          //     that.setData({
-          //       showOverShare: false,
-          //       overShareText: ''
-          //     })
-          //   }, 1000)
-          // })
+            }
+            that.setData({
+              showGif: false,
+              showOverShare: true,
+              overShareText: text,
+              myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
+              myTreeData: resultData.Data,
+              myScore: resultData.Data.Integral,
+              myEnergy: resultData.Data.StorageEnergy,
+              treePercent: resultData.Data.Ratio,
+              treePercentWidth: resultData.Data.Ratio * 220,
+              myTreeImgUrl: imgUrl + resultData.Data.Picurl
+            }, () => {
+              setTimeout(() => {
+                that.setData({
+                  showOverShare: false,
+                  overShareText: ''
+                })
+              }, 1000)
+            })
         } else {
-          this.setData({
-            myTreeData: resultData.Data,
-            myScore: resultData.Data.Integral,
-            myEnergy: resultData.Data.StorageEnergy,
-            treePercent: resultData.Data.Ratio,
-            treePercentWidth: resultData.Data.Ratio * 220,
-            myTreeImgUrl: imgUrl + resultData.Data.Picurl
-          })
+          wx.showLoading()
         }
-
-      } else {
-        // 没有树木信息，需要种树
-        this.getTreeList()
-      }
+      }, time)
     } else {
-      // token过期
+      wx.hideLoading()
+      if (resultData.IsSuccess) {
+        if (resultData.Data) {
+          if (resultData.Data.BackgroundPicurl) {
+            this.setData({
+              BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
+            })
+            this.setData({
+              myTreeData: resultData.Data,
+              myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
+              myScore: resultData.Data.Integral,
+              myEnergy: resultData.Data.StorageEnergy,
+              treePercent: resultData.Data.Ratio,
+              treePercentWidth: resultData.Data.Ratio * 220,
+              myTreeImgUrl: imgUrl + resultData.Data.Picurl
+            })
+          }
+        } else {
+          // 没有树木信息，需要种树
+          this.getTreeList()
+        }
+      } else {
+        // token过期
+      }
     }
-
+    // wx.showLoading()
   },
   // 获取手机号
   getPhoneNumber(e) {
@@ -329,18 +323,11 @@ Page({
             treePercentWidth: resultData.Data.Ratio * 220,
           })
         } else if (resultData.Data.statu === 1) {
-          // that.setData({
-          //   showOverShare: true,
-          //   overShareText: resultData.Data.tips
-          // }, () => {
-          //   setTimeout(() => {
-          //     that.setData({
-          //       showOverShare: false,
-          //       overShareText: ''
-          //     })
-          //   }, 1000)
-          // })
-          that.getMyTree('showOverShare', resultData.Data.tips)
+          that.getMyTree('delay', Number(that.data.myTreeData.gifTime) * 1000, resultData.Data.tips)
+          that.setData({
+            showGif: true,
+            myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl,
+          })
         } else {
           Toast({
             type: 'success',
@@ -349,16 +336,11 @@ Page({
               that.getTreeList('1')
             },
           });
-          // that.setData({
-          //   showNewSelect: true,
-          //   selectIndex: ''
-          // })
         }
       } else {
-        // wx.hideLoading()
-        // Toast({
-        //   message: '能量不足'
-        // })
+        that.setData({
+          showMask:true
+        })
       }
     }
 
@@ -422,6 +404,7 @@ Page({
     const resultData = result.data
     if (resultData.IsSuccess) {
       // wx.hideLoading()
+      that.initData()
       Toast({
         type: 'success',
         message: '种树成功',
@@ -490,9 +473,6 @@ Page({
   // 初始化数据
   initData() {
     this.setData({
-      token: '',
-      openIdCode: '',
-      phoneCode: '',
       showMask: false,
       myTreeData: {},
       myScore: '',

@@ -114,8 +114,9 @@
 .phoneBtn {
   position: fixed;
   top: 66vh;
-  left: 250rpx;
-  height: 59rpx !important;
+  left: 175rpx;
+  width: 400rpx;
+  height: 100rpx !important;
 }
 
 .bg-setTree {

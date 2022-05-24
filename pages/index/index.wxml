@@ -11,8 +11,11 @@
   <image animation="{{animation2}}" bindtap="getTreeList" class="img-tree zIndex" src="../../static/gsxz.png"></image>
   <!-- 我的树 -->
   <!-- <image class="my-tree" style="width:{{myTreeData.width}}rpx;height: {{myTreeData.height}}rpx;left:{{(750-myTreeData.width)/2}}rpx" src="{{myTreeImgUrl}}"></image> -->
-  <image wx:if="{{showGif}}" class="my-tree-gif"  src="{{myTreeImgUrlGif}}"></image>
-  <image wx:else class="my-tree"  src="{{myTreeImgUrl}}"></image>
+  <block wx:if="{{!showNewSelect&&!showMask}}">
+    <image wx:if="{{showGif}}" class="my-tree-gif" src="{{myTreeImgUrlGif}}"></image>
+    <image wx:else class="my-tree" src="{{myTreeImgUrl}}"></image>
+  </block>
+
   <!-- 浇水 -->
   <image wx:if="{{showJiaoShui}}" class="img-jiaoshui" src="../../static/ssh.gif"></image>
   <!-- 进度条 -->
@@ -37,6 +40,7 @@
   </view>
 
 </view>
+<!-- 授权手机号 -->
 <van-overlay show="{{ showMask }}">
   <van-button custom-class="phoneBtn" round color="#29b838" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">开启绿粉之旅</van-button>
 </van-overlay>
