@@ -1,0 +1,355 @@
+/**index.wxss**/
+
+.img-login {
+  position: fixed;
+  bottom: 75vh;
+  left: 52rpx;
+  width: 122rpx;
+  height: 120rpx;
+}
+
+.img-jifen {
+  width: 122rpx !important;
+  height: 114rpx;
+  position: fixed;
+  bottom: 62.1vh;
+  left: 52rpx;
+}
+
+.label-share {
+  width: 105rpx;
+  height: 102rpx;
+  position: fixed;
+  bottom: 81.5vh;
+  right: 52rpx;
+}
+
+.img-share {
+  width: 105rpx;
+  height: 102rpx;
+}
+
+.img-huodong {
+  width: 105rpx;
+  height: 102rpx;
+  position: fixed;
+  bottom: 68.9vh;
+  right: 48rpx;
+}
+
+.img-tree {
+  width: 110rpx;
+  height: 102rpx;
+  position: fixed;
+  top: 35.8vh;
+  right: 48rpx;
+}
+
+.my-tree {
+  position: fixed;
+  bottom: 22.5vh;
+  left: 105rpx;
+  width: 540rpx;
+  height: 810rpx;
+}
+.my-tree-gif{
+  position: fixed;
+  bottom: 22.5vh;
+  left: 105rpx;
+  width: 540rpx;
+  height: 810rpx;
+}
+.img-jiaoshui{
+  width: 226rpx;
+  height: 189rpx;
+  position: fixed;
+  top: 34.56vh;
+  right: 186rpx;
+}
+.score-box{
+  width: 200rpx;
+  height: 174rpx;
+    position: fixed;
+  bottom: 5.3vh;
+  left: 34rpx;
+}
+.img-score {
+  width: 200rpx;
+  height: 174rpx;
+}
+
+.text-score {
+  width: 200rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  position: absolute;
+  bottom: 66rpx;
+  left: 0rpx;
+  text-align: center;
+}
+
+.energy-box {
+  width: 200rpx;
+  height: 174rpx;
+  position: fixed;
+  bottom: 5.3vh;
+  right: 34rpx;
+}
+
+.img-eneregy {
+  width: 200rpx;
+  height: 174rpx;
+}
+
+.text-eneregy {
+  width: 200rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  position: absolute;
+  bottom: 66rpx;
+  right: 0rpx; 
+  text-align: center;
+}
+
+.phoneBtn {
+  position: fixed;
+  top: 66vh;
+  left: 250rpx;
+  height: 59rpx !important;
+}
+
+.bg-setTree {
+  width: 600rpx;
+  height: 420rpx;
+  position: fixed;
+  top: 33vh;
+  left: 75rpx;
+}
+
+.setTree-box {
+  max-width: 550rpx;
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 33vh;
+  left: 80rpx;
+  padding: 45rpx;
+}
+
+.setTree-box-item {
+  margin-right: 30rpx;
+  margin-bottom: 35rpx;
+  position: relative;
+}
+
+.setTree-box-item-img {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.setTree-box-item-name {
+  font-size: 24rpx;
+  color: #24b436;
+  text-align: center;
+}
+
+.img-mask {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50rpx;
+  background-color: #999;
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+}
+
+.setTreeBtn {
+  position: fixed;
+  top: 65vh;
+  left: 290rpx;
+}
+.bg-myTree {
+  width: 750rpx;
+  height: 600rpx;
+  position: fixed;
+  top: 27vh;
+  left: 0;
+}
+.myTree-box-top{
+  text-align: center;
+  position: fixed;
+  top: 28.5vh;
+  left: 294rpx;
+}
+.myTree-box-top-img{
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 45rpx;
+  overflow: hidden;
+  margin-left: 36rpx;
+}
+.myTree-box-top-name{
+  font-size: 22rpx;
+  margin-top: 15rpx;
+  margin-left: 36rpx;
+}
+.myTree-box-top-time{
+  font-size: 24rpx;
+  font-weight: bold;
+  margin-top: 25rpx;
+}
+.myTree-box {
+  max-width: 750rpx;
+  display: flex;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 42vh;
+  left: 0;
+  padding: 60rpx;
+}
+
+.myTree-box-item {
+  margin-right: 70rpx;
+  margin-bottom: 45rpx;
+  position: relative;
+}
+.myTree-box-item:nth-of-type(4) {
+  margin-right: 0;
+  margin-bottom: 45rpx;
+  position: relative;
+}
+
+.myTree-box-item-img {
+  width: 100rpx;
+  height: 100rpx;
+}
+
+.myTree-box-item-name {
+  font-size: 24rpx;
+  color: #24b436;
+  text-align: center;
+}
+.img-mymask {
+  width: 100rpx;
+  height: 100rpx;
+  background-color: #999;
+  z-index: 9999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+}
+.bg-login{
+  width: 600rpx;
+  height: 200rpx;
+  position: fixed;
+  top: 33vh;
+  left: 75rpx;
+}
+.login-box{
+  position: fixed;
+  top: 33vh;
+  left: 75rpx;
+}
+.login-box-title{
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-left: 200rpx;
+  margin-top: 4rpx;
+}
+.login-box-days{
+  width: 540rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10rpx 35rpx;
+}
+.login-box-days-item{
+  position: relative;
+}
+.days-number{
+  position: absolute;
+  top: 30rpx;
+  left: 0;
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #ffffff;
+  width: 100rpx;
+  text-align: center;
+}
+.days-img{
+  width: 100rpx;
+  height: 100rpx;
+}
+.days-time{
+  font-size: 24rpx;
+  font-weight: bold;
+  text-align: center;
+}
+.bg-share{
+  width: 400rpx;
+  height: 100rpx;
+  position: fixed;
+  top: 48vh;
+  left: 175rpx;
+}
+.text-share{
+  width: 400rpx;
+  height: 100rpx;
+  position: fixed;
+  top: 48vh;
+  left: 175rpx;
+  text-align: center;
+  margin-top: 25rpx;
+}
+.bg-rule {
+  width: 750rpx;
+  height: 600rpx;
+  position: fixed;
+  top: 27vh;
+  left: 0;
+}
+.rule-box{
+  height: 450rpx;
+  position: fixed;
+  top: 29vh;
+  left: 0;
+}
+.rule-text{
+  display: block;
+  height: 450rpx;
+  width: 650rpx;
+  margin-top: 50rpx;
+  margin-left: 50rpx;
+  overflow: scroll;
+}
+.percent-box{
+  display: flex;
+  justify-content: center;
+  margin-top: 78.94vh;
+}
+.percent-container{
+width: 240rpx;
+height: 36rpx;
+background: url('https://www.hzxune.com/mtscs/123.png') no-repeat;
+background-size: 240rpx 36rpx;
+display: flex;
+align-items: center;
+padding-left: 8rpx;
+}
+.view-percent {
+  display: block;
+  height: 24rpx;
+  background: #f96029;
+  border-radius: 14rpx;
+}
+.text-percent{
+  text-align: center;
+  font-size: 26rpx;
+  color: #333333;
+}
+.zIndex{
+  z-index: 99;
+}

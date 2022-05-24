@@ -1,0 +1,146 @@
+<!--index.wxml-->
+<view class="bg" style="background: url({{BackgroundPicurl}}) no-repeat;background-size:750rpx 100%">
+  <image animation="{{animation}}" class="img-login zIndex" bindtap="loginDay" src="../../static/dljsd.png"></image>
+  <image class="img-jifen zIndex" src="../../static/jfdhl.png"></image>
+  <button id="shareId" style="visibility:hidden" open-type="share">
+  </button>
+  <label for="shareId" class="label-share">
+    <image animation="{{animation1}}" class="img-share zIndex" src="../../static/fxzl.png"></image>
+  </label>
+  <image bindtap="getActivityRules" class="img-huodong zIndex" src="../../static/hdgz.png"></image>
+  <image animation="{{animation2}}" bindtap="getTreeList" class="img-tree zIndex" src="../../static/gsxz.png"></image>
+  <!-- 我的树 -->
+  <!-- <image class="my-tree" style="width:{{myTreeData.width}}rpx;height: {{myTreeData.height}}rpx;left:{{(750-myTreeData.width)/2}}rpx" src="{{myTreeImgUrl}}"></image> -->
+  <image wx:if="{{showGif}}" class="my-tree-gif"  src="{{myTreeImgUrlGif}}"></image>
+  <image wx:else class="my-tree"  src="{{myTreeImgUrl}}"></image>
+  <!-- 浇水 -->
+  <image wx:if="{{showJiaoShui}}" class="img-jiaoshui" src="../../static/ssh.gif"></image>
+  <!-- 进度条 -->
+  <!-- 100%时宽度220rpx -->
+  <view wx:if="{{!showNewSelect&&!showMask}}">
+    <view class="percent-box">
+      <view class="percent-container">
+        <view class="view-percent" style="width:{{treePercentWidth}}rpx;max-width: 220rpx;"></view>
+      </view>
+    </view>
+    <view class="text-percent">{{myTreeData.explain}}</view>
+  </view>
+  <!-- 积分 -->
+  <view wx:if="{{!showNewSelect&&!showMask}}" class="score-box">
+    <image class="img-score" src="../../static/jfnum.png"></image>
+    <view class="text-score">积分{{myScore}}</view>
+  </view>
+  <!-- 能量 -->
+  <view wx:if="{{!showNewSelect&&!showMask}}" class="energy-box" bindtap="setEnergy">
+    <image class="img-eneregy" src="../../static/sdnum.png"></image>
+    <view class="text-eneregy">浇树{{myEnergy}}</view>
+  </view>
+
+</view>
+<van-overlay show="{{ showMask }}">
+  <van-button custom-class="phoneBtn" round color="#29b838" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">开启绿粉之旅</van-button>
+</van-overlay>
+<van-toast id="van-toast" />
+<!-- 选择种树弹框 -->
+<van-overlay show="{{ showNewSelect }}">
+  <image wx:if="{{showNewSelect}}" class="bg-setTree" src="../../static/setTreeBg.png"></image>
+  <view wx:if="{{showNewSelect}}" class="setTree-box">
+    <view class="setTree-box-item" wx:for="{{treeList}}" data-index="{{index}}" data-item="{{item}}" data-treeId="{{item.treeId}}" wx:key="index" bindtap="selectMyTree">
+      <image class="setTree-box-item-img" src="../../static/tree.png"></image>
+      <view class="setTree-box-item-name">{{item.treeName}}</view>
+      <view wx:if="{{index!==selectIndex}}" class="img-mask"></view>
+    </view>
+  </view>
+  <van-button wx:if="{{showNewSelect}}" custom-class="setTreeBtn" bindtap="confirmSelect" size="small" round color="#29b838">开启绿粉之旅</van-button>
+</van-overlay>
+<!-- 已经种过的树——果树勋章 -->
+<van-overlay show="{{ showMyTree }}" bind:click="onClickHide">
+  <image wx:if="{{showMyTree}}" class="bg-myTree" src="../../static/mytreebg.png"></image>
+  <view class="myTree-box-top">
+    <view class="myTree-box-top-img">
+      <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <view class="myTree-box-top-name">
+      <open-data type="userNickName"></open-data>
+    </view>
+    <!-- <view class="myTree-box-top-time">已陪伴您756天</view> -->
+  </view>
+  <view wx:if="{{showMyTree}}" class="myTree-box">
+    <view class="myTree-box-item" wx:for="{{treeList}}" data-index="{{index}}" data-item="{{item}}" data-treeId="{{item.treeId}}" wx:key="index" wx:if="{{item.treeNum>0}}">
+      <image class="myTree-box-item-img" src="https://www.hzxune.com{{item.Picurl}}"></image>
+      <view class="myTree-box-item-name">{{item.treeName}}</view>
+      <!-- <view wx:if="{{index!==selectIndex}}" class="img-mymask"></view> -->
+    </view>
+  </view>
+</van-overlay>
+<!-- 登陆天数 -->
+<van-overlay show="{{ showLoginDay }}" bind:click="onClickHide">
+  <image wx:if="{{showLoginDay}}" class="bg-login" src="../../static/loginbg.png"></image>
+  <view class="login-box">
+    <view class="login-box-title">连续登录集水滴</view>
+    <view class="login-box-days">
+      <view class="login-box-days-item">
+        <image wx:if="{{myTreeData.signDay>0}}" class="days-img" src="../../static/daysimg.png"></image>
+        <image wx:else="" class="days-img" src="../../static/daysimg1.png"></image>
+        <view class="days-number">
+          {{dayList[0].one}}g
+        </view>
+        <view class="days-time">
+          第一天
+        </view>
+      </view>
+      <view class="login-box-days-item">
+        <image wx:if="{{myTreeData.signDay>1}}" class="days-img" src="../../static/daysimg.png"></image>
+        <image wx:else="" class="days-img" src="../../static/daysimg1.png"></image>
+        <view class="days-number">
+          {{dayList[0].two}}g
+        </view>
+        <view class="days-time">
+          第二天
+        </view>
+      </view>
+      <view class="login-box-days-item">
+        <image wx:if="{{myTreeData.signDay>2}}" class="days-img" src="../../static/daysimg.png"></image>
+        <image wx:else="" class="days-img" src="../../static/daysimg1.png"></image>
+        <view class="days-number">
+          {{dayList[0].three}}g
+        </view>
+        <view class="days-time">
+          第三天
+        </view>
+      </view>
+      <view class="login-box-days-item">
+        <image wx:if="{{myTreeData.signDay>3}}" class="days-img" src="../../static/daysimg.png"></image>
+        <image wx:else="" class="days-img" src="../../static/daysimg1.png"></image>
+        <view class="days-number">
+          {{dayList[0].four}}g
+        </view>
+        <view class="days-time">
+          第四天
+        </view>
+      </view>
+      <view class="login-box-days-item">
+        <image wx:if="{{myTreeData.signDay>4}}" class="days-img" src="../../static/daysimg.png"></image>
+        <image wx:else="" class="days-img" src="../../static/daysimg1.png"></image>
+        <view class="days-number">
+          {{dayList[0].five}}g
+        </view>
+        <view class="days-time">
+          第五天
+        </view>
+      </view>
+    </view>
+  </view>
+</van-overlay>
+<!-- 分享超过次数弹框,信息提示框也用这个 -->
+<van-overlay show="{{ showOverShare }}">
+  <image wx:if="{{showOverShare}}" class="bg-share" src="../../static/loginbg.png"></image>
+  <view class="text-share">{{overShareText}}</view>
+</van-overlay>
+<!-- 活动规则 -->
+<van-overlay show="{{ showActivityRules }}" lock-scroll="{{false}}" bind:click="onClickHide">
+  <image wx:if="{{showActivityRules}}" class="bg-rule" src="../../static/setTreeBg.png"></image>
+  <view class="rule-box">
+    <text class="rule-text">{{ActivityRulesText}}</text>
+  </view>
+</van-overlay>
