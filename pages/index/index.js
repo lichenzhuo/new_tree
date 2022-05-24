@@ -323,11 +323,19 @@ Page({
             treePercentWidth: resultData.Data.Ratio * 220,
           })
         } else if (resultData.Data.statu === 1) {
-          that.getMyTree('delay', Number(that.data.myTreeData.gifTime) * 1000, resultData.Data.tips)
-          that.setData({
-            showGif: true,
-            myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl,
-          })
+          that.getMyTree('delay', Number(that.data.myTreeData.gifTime) * 1000, resultData.Data.tips) 
+          let obj = JSON.parse(JSON.stringify(this.data.myTreeData)) 
+          obj.Ratio = resultData.Data.Ratio 
+          obj.StorageEnergy = resultData.Data.StorageEnergy 
+          obj.explain = resultData.Data.explain 
+          that.setData({ 
+            showGif: true, 
+            myTreeData:obj, 
+            treePercent: resultData.Data.Ratio, 
+            treePercentWidth: resultData.Data.Ratio * 220, 
+            myEnergy: resultData.Data.StorageEnergy, 
+            myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl, 
+          }) 
         } else {
           Toast({
             type: 'success',
