@@ -112,6 +112,32 @@ const getRefreshApi = (token,data) => {
     }
   })
 }
+// 获取背景音乐
+const getBgAudioApi = (token,data) => {
+  return http({
+    url: '/Tree/bgMusic',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
+// 积分兑换—商品列表
+const getProductListApi = (token,data) => {
+  return http({
+    url: '/Product/ProductList',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
 export default  {
   getTokenApi,
   getMyTreeApi,
@@ -121,5 +147,7 @@ export default  {
   createTreeApi,
   getEnergyApi,
   getActivityRulesApi,
-  getRefreshApi
+  getRefreshApi,
+  getBgAudioApi,
+  getProductListApi
 }

@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="bg" style="background: url({{BackgroundPicurl}}) no-repeat;background-size:750rpx 100%">
   <image animation="{{animation}}" class="img-login zIndex" bindtap="loginDay" src="../../static/dljsd.png"></image>
-  <image class="img-jifen zIndex" src="../../static/jfdhl.png"></image>
+  <image bindtap="gotoList" class="img-jifen zIndex" src="../../static/jfdhl.png"></image>
   <button id="shareId" style="visibility:hidden" open-type="share">
   </button>
   <label for="shareId" class="label-share">
@@ -17,7 +17,7 @@
   </block>
 
   <!-- 浇水 -->
-  <image wx:if="{{showJiaoShui}}" class="img-jiaoshui" src="../../static/ssh.gif"></image>
+  <image wx:if="{{showJiaoShui}}" style="bottom:{{myTreeData.height}}rpx" class="img-jiaoshui" src="../../static/ssh.gif"></image>
   <!-- 进度条 -->
   <!-- 100%时宽度220rpx -->
   <view wx:if="{{!showNewSelect&&!showMask}}">
@@ -148,3 +148,4 @@
     <text class="rule-text">{{ActivityRulesText}}</text>
   </view>
 </van-overlay>
+<audio loop id="bgAudio" src="{{bgAudio}}"></audio>

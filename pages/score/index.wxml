@@ -1,0 +1,24 @@
+<!--pages/score/index.wxml-->
+<view class="container">
+  <image class="header" src="../../static/score/bg.png"></image>
+  <view class="search-box padding30">
+    <van-search value="{{ value }}" shape="round" placeholder="" />
+  </view>
+  <view class="body">
+    <view class="button-box">
+      <van-button style="margin-right: 28rpx;" round size="small" type="primary" plain="{{activeButton}}">全部</van-button>
+      <van-button round size="small" type="primary" plain="{{!activeButton}}">我能兑换</van-button>
+    </view>
+    <view class="product-list">
+      <view class="product-item" wx:for="{{ProductList}}" data-item="{{item}}"  wx:key="index">
+        <image class="item-img" src="https://www.hzxune.com/{{item.Picurl}}" />
+        <view class="item-name">{{item.productName}}</view>
+        <view class="item-integral">{{item.integral}}</view>
+        <view class="item-describe">{{item.describe}}</view>
+        <view class="exchange-button">
+          <van-button custom-class="button-class" round size="small" type="primary">我要兑换</van-button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

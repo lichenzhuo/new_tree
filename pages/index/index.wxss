@@ -63,7 +63,7 @@
   width: 226rpx;
   height: 189rpx;
   position: fixed;
-  top: 34.56vh;
+  /* top: 34.56vh; */
   right: 186rpx;
 }
 .score-box{

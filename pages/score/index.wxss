@@ -1,0 +1,62 @@
+/* pages/score/index.wxss */
+.header {
+  width: 750rpx;
+  height: 266rpx;
+}
+
+.search-box {
+  /* margin-top: 36rpx; */
+}
+
+.van-search__content {
+  /* color: #ababab !important; */
+}
+
+.van-search {
+  padding: 30rpx !important;
+}
+
+.button-box {
+  padding: 30rpx;
+}
+
+.product-list {
+  padding: 0 27rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.item-img {
+  width: 326rpx;
+  height: 326rpx;
+}
+
+.item-name {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.item-integral {
+  max-width: 326rpx;
+  text-align: right;
+  color: #22b235;
+}
+
+.item-describe {
+  max-width: 300rpx;
+  height: 70rpx;
+  font-size: 26rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.exchange-button{
+  text-align: center;
+  margin: 15rpx 0;
+}
+.button-class{
+  width: 200rpx;
+}

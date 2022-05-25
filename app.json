@@ -1,6 +1,8 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/index/index",
+    "pages/score/index",
+    "pages/myScore/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -9,10 +11,30 @@
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "backgroundColor": "#22b235",
+    "color": "#ffffff",
+    "selectedColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "返回种树"
+      },
+      {
+        "pagePath": "pages/score/index",
+        "text": "积分兑好礼"
+      },
+      {
+        "pagePath": "pages/myScore/index",
+        "text": "兑换记录"
+      }
+    ]
+  },
   "usingComponents": {
     "van-overlay": "@vant/weapp/overlay/index",
     "van-button": "@vant/weapp/button/index",
     "van-loading": "@vant/weapp/loading/index",
-    "van-toast": "@vant/weapp/toast/index"
+    "van-toast": "@vant/weapp/toast/index",
+    "van-search": "@vant/weapp/search/index"
   }
 }

@@ -4,10 +4,9 @@ const app = getApp()
 import Toast from '@vant/weapp/toast/toast'
 var util = require('../../utils/md5.js') // 引入md5.js文件
 const imgUrl = 'https://www.hzxune.com'
-let miyao = util.hexMD5('abc'); // 使用加密
 import Api from '../../utils/api.js'
+const audioCtx = '';
 Page({
-
   data: {
     token: '',
     openIdCode: '',
@@ -34,10 +33,12 @@ Page({
     ActivityRulesText: '',
     animation: '',
     showGif: false,
-    myTreeImgUrlGif: ''
+    myTreeImgUrlGif: '',
+    bgAudio: ''
   },
   onLoad() {},
   async onShow() {
+    wx.hideTabBar()
     let that = this
     wx.login({
       success: (res) => {
@@ -169,6 +170,7 @@ Page({
   // 获取当前我种的树信息
   async getMyTree(type, time, text) {
     this.startAnimation()
+    this.getBgAudio()
     let that = this
     const Sign = util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     const token = wx.getStorageSync('token')
@@ -179,30 +181,31 @@ Page({
       setTimeout(() => {
         if (resultData) {
           wx.hideLoading()
-            if (resultData.Data.BackgroundPicurl) {
-              this.setData({
-                BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
-              })
-            }
-            that.setData({
-              showGif: false,
-              showOverShare: true,
-              overShareText: text,
-              myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
-              myTreeData: resultData.Data,
-              myScore: resultData.Data.Integral,
-              myEnergy: resultData.Data.StorageEnergy,
-              treePercent: resultData.Data.Ratio,
-              treePercentWidth: resultData.Data.Ratio * 220,
-              myTreeImgUrl: imgUrl + resultData.Data.Picurl
-            }, () => {
-              setTimeout(() => {
-                that.setData({
-                  showOverShare: false,
-                  overShareText: ''
-                })
-              }, 1000)
+          if (resultData.Data.BackgroundPicurl) {
+            this.setData({
+              BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
             })
+          }
+          that.setData({
+            showGif: false,
+            showOverShare: true,
+            overShareText: text,
+            myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
+            myTreeData: resultData.Data,
+            myScore: resultData.Data.Integral,
+            myEnergy: resultData.Data.StorageEnergy,
+            treePercent: resultData.Data.Ratio,
+            treePercentWidth: resultData.Data.Ratio * 220,
+            myTreeImgUrl: imgUrl + resultData.Data.Picurl,
+            canClick: true
+          }, () => {
+            setTimeout(() => {
+              that.setData({
+                showOverShare: false,
+                overShareText: ''
+              })
+            }, 1000)
+          })
         } else {
           wx.showLoading()
         }
@@ -222,7 +225,8 @@ Page({
               myEnergy: resultData.Data.StorageEnergy,
               treePercent: resultData.Data.Ratio,
               treePercentWidth: resultData.Data.Ratio * 220,
-              myTreeImgUrl: imgUrl + resultData.Data.Picurl
+              myTreeImgUrl: imgUrl + resultData.Data.Picurl,
+              canClick: true
             })
           }
         } else {
@@ -299,6 +303,8 @@ Page({
         treeId: this.data.myTreeData.treeId,
         Sign: util.hexMD5(`treeId=${this.data.myTreeData.treeId}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
       }
+      let result = await Api.setTreeEnergyApi(wx.getStorageSync('token'), params)
+      const resultData = result.data
       that.setData({
         showJiaoShui: true,
         canClick: false
@@ -306,50 +312,92 @@ Page({
         setTimeout(() => {
           that.setData({
             showJiaoShui: false,
-            canClick: true
           })
-        }, 1000)
+          if (resultData.IsSuccess) {
+            if (resultData.Data.statu === 0) {
+              let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
+              obj.explain = resultData.Data.explain
+              that.setData({
+                myTreeData: obj,
+                myEnergy: resultData.Data.StorageEnergy,
+                treePercent: resultData.Data.Ratio,
+                treePercentWidth: resultData.Data.Ratio * 220,
+                canClick: true
+              })
+            } else if (resultData.Data.statu === 1) {
+              that.getMyTree('delay', Number(that.data.myTreeData.gifTime) * 1000, resultData.Data.tips)
+              let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
+              obj.Ratio = resultData.Data.Ratio
+              obj.StorageEnergy = resultData.Data.StorageEnergy
+              obj.explain = resultData.Data.explain
+              that.setData({
+                showGif: true,
+                myTreeData: obj,
+                treePercent: resultData.Data.Ratio,
+                treePercentWidth: resultData.Data.Ratio * 220,
+                myEnergy: resultData.Data.StorageEnergy,
+                myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl,
+              })
+            } else {
+              // that.setData({
+              //   canClick: true
+              // })
+              Toast({
+                type: 'success',
+                message: '种树完成，可以种下一颗了',
+                onClose: () => {
+                  that.getTreeList('1')
+                },
+              });
+            }
+          }
+        }, 2000)
       })
-      let result = await Api.setTreeEnergyApi(wx.getStorageSync('token'), params)
-      const resultData = result.data
-      if (resultData.IsSuccess) {
-        if (resultData.Data.statu === 0) {
-          let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
-          obj.explain = resultData.Data.explain
-          that.setData({
-            myTreeData: obj,
-            myEnergy: resultData.Data.StorageEnergy,
-            treePercent: resultData.Data.Ratio,
-            treePercentWidth: resultData.Data.Ratio * 220,
-          })
-        } else if (resultData.Data.statu === 1) {
-          that.getMyTree('delay', Number(that.data.myTreeData.gifTime) * 1000, resultData.Data.tips) 
-          let obj = JSON.parse(JSON.stringify(this.data.myTreeData)) 
-          obj.Ratio = resultData.Data.Ratio 
-          obj.StorageEnergy = resultData.Data.StorageEnergy 
-          obj.explain = resultData.Data.explain 
-          that.setData({ 
-            showGif: true, 
-            myTreeData:obj, 
-            treePercent: resultData.Data.Ratio, 
-            treePercentWidth: resultData.Data.Ratio * 220, 
-            myEnergy: resultData.Data.StorageEnergy, 
-            myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl, 
-          }) 
-        } else {
-          Toast({
-            type: 'success',
-            message: '种树完成，可以种下一颗了',
-            onClose: () => {
-              that.getTreeList('1')
-            },
-          });
-        }
-      } else {
+      if (!resultData.IsSuccess) {
         that.setData({
-          showMask:true
+          showMask: true,
+          canClick: true
         })
       }
+      // if (resultData.IsSuccess) {
+      //   if (resultData.Data.statu === 0) {
+      //     let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
+      //     obj.explain = resultData.Data.explain
+      //     that.setData({
+      //       myTreeData: obj,
+      //       myEnergy: resultData.Data.StorageEnergy,
+      //       treePercent: resultData.Data.Ratio,
+      //       treePercentWidth: resultData.Data.Ratio * 220,
+      //     })
+      //   } else if (resultData.Data.statu === 1) {
+      //     that.getMyTree('delay', Number(that.data.myTreeData.gifTime) * 1000, resultData.Data.tips)
+      //     let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
+      //     obj.Ratio = resultData.Data.Ratio
+      //     obj.StorageEnergy = resultData.Data.StorageEnergy
+      //     obj.explain = resultData.Data.explain
+      //     that.setData({
+      //       showGif: true,
+      //       myTreeData: obj,
+      //       treePercent: resultData.Data.Ratio,
+      //       treePercentWidth: resultData.Data.Ratio * 220,
+      //       myEnergy: resultData.Data.StorageEnergy,
+      //       myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl,
+      //     })
+      //   } else {
+      //     Toast({
+      //       type: 'success',
+      //       message: '种树完成，可以种下一颗了',
+      //       onClose: () => {
+      //         that.getTreeList('1')
+      //       },
+      //     });
+      //   }
+      // } 
+      // else {
+      //   that.setData({
+      //     showMask: true
+      //   })
+      // }
     }
 
   },
@@ -505,5 +553,28 @@ Page({
       showGif: false,
       myTreeImgUrlGif: ''
     })
-  }
+  },
+  async getBgAudio() {
+    let that = this
+    const params = {
+      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getBgAudioApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    this.setData({
+      bgAudio: imgUrl +'/'+ resultData.Data
+    }, () => {
+      that.audioCtx = wx.createAudioContext('bgAudio');
+      that.audioCtx.play()
+    })
+  },
+  gotoList() {
+    wx.switchTab({
+      url: '../score/index',
+    })
+  },
+  onHide() {
+    // 当页面影藏时，暂停音乐
+    this.audioCtx.pause()
+  },
 })
