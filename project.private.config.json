@@ -15,6 +15,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "兑换记录",
+          "pathName": "pages/myScore/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

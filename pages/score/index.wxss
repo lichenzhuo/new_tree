@@ -60,3 +60,19 @@
 .button-class{
   width: 200rpx;
 }
+.bg-share{
+  width: 400rpx;
+  height: 100rpx;
+  position: fixed;
+  top: 48vh;
+  left: 175rpx;
+}
+.text-share{
+  width: 400rpx;
+  height: 100rpx;
+  position: fixed;
+  top: 48vh;
+  left: 175rpx;
+  text-align: center;
+  margin-top: 25rpx;
+}

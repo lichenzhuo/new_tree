@@ -34,11 +34,18 @@ Page({
     animation: '',
     showGif: false,
     myTreeImgUrlGif: '',
-    bgAudio: ''
+    bgAudio: '',
+    startSong:false
   },
-  onLoad() {},
+  onLoad() {
+    wx.hideTabBar()
+  },
+  onReady(){
+    wx.hideTabBar()
+  },
   async onShow() {
     wx.hideTabBar()
+    this.getBgAudio()
     let that = this
     wx.login({
       success: (res) => {
@@ -170,7 +177,7 @@ Page({
   // 获取当前我种的树信息
   async getMyTree(type, time, text) {
     this.startAnimation()
-    this.getBgAudio()
+    // this.getBgAudio()
     let that = this
     const Sign = util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     const token = wx.getStorageSync('token')
@@ -516,14 +523,16 @@ Page({
       })
       // 今日分享已完成！
     }
-    const promise = new Promise(resolve => {
-      resolve({
-        title: '绿城农场'
-      })
-    })
+    // const promise = new Promise(resolve => {
+    //   resolve({
+    //     title: '绿城农场',
+
+    //   })
+    // })
     return {
-      title: '绿城农场',
-      promise
+      title: '绿粉农场',
+      imageUrl:'../../static/share.jpg',
+      // promise
     }
   },
   // 初始化数据
@@ -566,7 +575,23 @@ Page({
     }, () => {
       that.audioCtx = wx.createAudioContext('bgAudio');
       that.audioCtx.play()
+      this.setData({
+        startSong:true
+      })
     })
+  },
+  pauseSong(){
+    if (this.data.startSong) {
+      this.audioCtx.pause()
+      this.setData({
+        startSong:false
+      })
+    } else {
+      this.audioCtx.play()
+      this.setData({
+        startSong:true
+      })
+    }
   },
   gotoList() {
     wx.switchTab({

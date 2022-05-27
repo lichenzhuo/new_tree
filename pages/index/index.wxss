@@ -1,5 +1,28 @@
 /**index.wxss**/
-
+.song-box{
+  width: 100rpx;
+  height: 100rpx;
+  position: fixed;
+  top: 30rpx;
+  left: 60rpx;
+  animation: rotator 10s linear infinite;
+  animation-play-state: running;
+}
+.song-img{
+  width: 100rpx;
+  height: 100rpx;
+}
+.pause {
+  animation-play-state: paused;
+}
+@keyframes rotator {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .img-login {
   position: fixed;
   bottom: 75vh;

@@ -1,2 +1,26 @@
 <!--pages/myScore/index.wxml-->
-<text>pages/myScore/index.wxml</text>
+<view class="container">
+  <view class="body">
+    <view class="button-box">
+      <van-button  round size="small" type="primary" >我的兑换</van-button>
+    </view>
+    <view class="product-list">
+      <view class="product-item" wx:for="{{ProductList}}" data-item="{{item}}"  wx:key="index">
+        <image class="item-img" src="https://www.hzxune.com/{{item.Picurl}}" />
+        <view class="item-name">{{item.productName}}</view>
+        <!-- <view class="item-integral">{{item.integral}}</view> -->
+        <view class="item-describe">{{item.describe}}</view>
+        <view class="exchange-button">
+          <van-button wx:if="{{!item.is_writeOff}}" data-item="{{item}}" disabled="{{disabled}}" bind:click="openExchange" custom-class="button-class" round size="small" type="primary">我要核销</van-button>
+          <van-button wx:else  disabled custom-class="button-class disabled-button" round size="small" >已核销</van-button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<van-toast id="van-toast" />
+<!-- 分享超过次数弹框,信息提示框也用这个 -->
+<van-overlay show="{{ showTips }}">
+  <image wx:if="{{showTips}}" class="bg-share" src="../../static/loginbg.png"></image>
+  <view class="text-share">{{tipsText}}</view>
+</van-overlay>

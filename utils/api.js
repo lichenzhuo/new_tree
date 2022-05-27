@@ -138,6 +138,58 @@ const getProductListApi = (token,data) => {
     }
   })
 }
+// 积分兑换—兑换
+const getExchangeApi = (token,data) => {
+  return http({
+    url: '/Product/IntegralExchange',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
+// 积分兑换—广告
+const getAdvertApi = (token,data) => {
+  return http({
+    url: '/Product/Advert',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
+// 积分兑换—兑换列表
+const getExchangeListApi = (token,data) => {
+  return http({
+    url: '/Product/ExchangeList',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
+// 积分兑换—核销
+const getExchangeWriteOffApi = (token,data) => {
+  return http({
+    url: '/Product/ExchangeWriteOff',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
 export default  {
   getTokenApi,
   getMyTreeApi,
@@ -149,5 +201,9 @@ export default  {
   getActivityRulesApi,
   getRefreshApi,
   getBgAudioApi,
-  getProductListApi
+  getProductListApi,
+  getExchangeApi,
+  getAdvertApi,
+  getExchangeListApi,
+  getExchangeWriteOffApi
 }

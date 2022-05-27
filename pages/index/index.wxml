@@ -1,5 +1,8 @@
 <!--index.wxml-->
 <view class="bg" style="background: url({{BackgroundPicurl}}) no-repeat;background-size:750rpx 100%">
+  <view class="song-box {{startSong?'':'pause'}}" bindtap="pauseSong">
+    <image class="song-img" src="../../static/pause.png"></image>
+  </view>
   <image animation="{{animation}}" class="img-login zIndex" bindtap="loginDay" src="../../static/dljsd.png"></image>
   <image bindtap="gotoList" class="img-jifen zIndex" src="../../static/jfdhl.png"></image>
   <button id="shareId" style="visibility:hidden" open-type="share">

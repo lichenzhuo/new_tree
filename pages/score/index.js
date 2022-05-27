@@ -10,9 +10,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    value:'',
-    activeButton:false,
-    ProductList:[]
+    search: '',
+    type: 'all',
+    ProductList: [],
+    disabled: false,
+    showTips: false,
+    tipsText: '',
+    AdvertData:{},
+    webViewUrl:'',
+    showWebView:false
   },
 
   /**
@@ -32,19 +38,100 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  async onShow() {
+  onShow() {
     wx.showTabBar()
-    let that = this
-      const params = {
-        Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
-      }
-      let result = await Api.getProductListApi(wx.getStorageSync('token'), params)
-      const resultData = result.data
-      this.setData({
-        ProductList:resultData.Data
-      })
+    this.getSearchList()
+    this.getAdvert()
   },
+  changeType() {
+    if (this.data.type === 'all') {
+      this.setData({
+        type: 'my'
+      })
+    } else {
+      this.setData({
+        type: 'all'
+      })
+    }
+    this.getSearchList()
+  },
+  onCancel() {
+    this.setData({
+      search: ''
+    }, () => {
+      this.getSearchList()
+    })
+  },
+  // 搜索列表
+  async getSearchList() {
+    let that = this
+    const params = {
+      search: this.data.search,
+      type: this.data.type,
+      Sign: util.hexMD5(`search=${this.data.search}&type=${this.data.type}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getProductListApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    this.setData({
+      ProductList: resultData.Data
+    })
+  },
+  // 兑换
+  async exchange(e) {
+    this.setData({
+      disabled: true
+    })
+    const item = e.currentTarget.dataset.item
+    let that = this
+    const params = {
+      productId: item.pid,
+      Sign: util.hexMD5(`productId=${item.pid}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getExchangeApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    this.setData({
+      disabled: false
+    })
+    if (resultData.IsSuccess) {
+      Toast.success('兑换成功')
+    } else {
+      this.setData({
+        showTips: true,
+        tipsText: resultData.Msg
+      }, () => {
+        setTimeout(() => {
+          this.setData({
+            showTips: false,
+            tipsText: ''
+          })
+        }, 1000)
+      })
+    }
+  },
+  // 获取广告信息
+  async getAdvert(){
+    let that = this
+    const params = {
+      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getAdvertApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    this.setData({
+      AdvertData: resultData.Data
+    })
+  },
+  goToAdvert(e){
+    if (e.currentTarget.dataset.link) {
+      this.setData({
+        webViewUrl:e.currentTarget.dataset.link,
+        showWebView:true
+      })
+    } else {
+      
+    }
 
+    
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */
