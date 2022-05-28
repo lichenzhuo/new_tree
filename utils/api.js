@@ -190,6 +190,20 @@ const getExchangeWriteOffApi = (token,data) => {
     }
   })
 }
+// 积分兑换—积分获取使用记录
+const getIntegralListApi = (token,data) => {
+  return http({
+    url: '/Product/IntegralList',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
+
 export default  {
   getTokenApi,
   getMyTreeApi,
@@ -205,5 +219,6 @@ export default  {
   getExchangeApi,
   getAdvertApi,
   getExchangeListApi,
-  getExchangeWriteOffApi
+  getExchangeWriteOffApi,
+  getIntegralListApi
 }

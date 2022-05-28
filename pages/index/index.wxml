@@ -34,7 +34,7 @@
   <!-- 积分 -->
   <view wx:if="{{!showNewSelect&&!showMask}}" class="score-box">
     <image class="img-score" src="../../static/jfnum.png"></image>
-    <view class="text-score">积分{{myScore}}</view>
+    <view bindtap="showHistory" class="text-score">积分{{myScore}}</view>
   </view>
   <!-- 能量 -->
   <view wx:if="{{!showNewSelect&&!showMask}}" class="energy-box" bindtap="setEnergy">
@@ -53,7 +53,7 @@
   <image wx:if="{{showNewSelect}}" class="bg-setTree" src="../../static/setTreeBg.png"></image>
   <view wx:if="{{showNewSelect}}" class="setTree-box">
     <view class="setTree-box-item" wx:for="{{treeList}}" data-index="{{index}}" data-item="{{item}}" data-treeId="{{item.treeId}}" wx:key="index" bindtap="selectMyTree">
-      <image class="setTree-box-item-img" src="../../static/tree.png"></image>
+      <image class="setTree-box-item-img" src="https://www.hzxune.com{{item.Picurl}}"></image>
       <view class="setTree-box-item-name">{{item.treeName}}</view>
       <view wx:if="{{index!==selectIndex}}" class="img-mask"></view>
     </view>
@@ -149,6 +149,24 @@
   <image wx:if="{{showActivityRules}}" class="bg-rule" src="../../static/setTreeBg.png"></image>
   <view class="rule-box">
     <text class="rule-text">{{ActivityRulesText}}</text>
+  </view>
+</van-overlay>
+<!-- 积分使用记录 -->
+<van-overlay show="{{ showScoreHistory }}" lock-scroll="{{false}}" bind:click="onClickHide">
+  <image wx:if="{{showScoreHistory}}" class="bg-history" src="../../static/historybg.png"></image>
+  <view class="history-box">
+    <view class="history-title">
+      积分使用记录
+    </view>
+    <view class="history-list">
+      <view class="history-list-item" wx:for="{{historyList}}" data-index="{{index}}" wx:key="index">
+        <view class="item-top">
+          <text class="history-text">{{item.Remarks}}</text>
+          <text class="history-text">{{item.Integral}}</text>
+        </view>
+        <view class="item-bottom">{{item.d_date}}</view>
+      </view>
+    </view>
   </view>
 </van-overlay>
 <audio loop id="bgAudio" src="{{bgAudio}}"></audio>

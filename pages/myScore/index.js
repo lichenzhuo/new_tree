@@ -43,7 +43,7 @@ Page({
   async getExchangeList() {
     let that = this
     const params = {
-      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getExchangeListApi(wx.getStorageSync('token'), params)
     const resultData = result.data
@@ -80,7 +80,7 @@ Page({
     let that = this
     const params = {
       exId: this.data.exchangeId,
-      Sign: util.hexMD5(`exId=${this.data.exchangeId}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`exId=${this.data.exchangeId}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getExchangeWriteOffApi(wx.getStorageSync('token'), params)
     const resultData = result.data

@@ -4,13 +4,6 @@
   height: 266rpx;
 }
 
-.search-box {
-  /* margin-top: 36rpx; */
-}
-
-.van-search__content {
-  /* color: #ababab !important; */
-}
 
 .van-search {
   padding: 30rpx !important;
@@ -60,6 +53,10 @@
 .button-class{
   width: 200rpx;
 }
+.disabled-button{
+  background: #808080 !important;
+  color: #ffffff !important;
+}
 .bg-share{
   width: 400rpx;
   height: 100rpx;
@@ -75,4 +72,7 @@
   left: 175rpx;
   text-align: center;
   margin-top: 25rpx;
+}
+.van-toast {
+  width: 300rpx !important;
 }

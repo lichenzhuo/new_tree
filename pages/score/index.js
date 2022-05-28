@@ -43,6 +43,12 @@ Page({
     this.getSearchList()
     this.getAdvert()
   },
+  onChange(e) {
+    console.log(e)
+    this.setData({
+      search: e.detail,
+    });
+  },
   changeType() {
     if (this.data.type === 'all') {
       this.setData({
@@ -68,7 +74,7 @@ Page({
     const params = {
       search: this.data.search,
       type: this.data.type,
-      Sign: util.hexMD5(`search=${this.data.search}&type=${this.data.type}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`search=${this.data.search}&type=${this.data.type}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getProductListApi(wx.getStorageSync('token'), params)
     const resultData = result.data
@@ -85,7 +91,7 @@ Page({
     let that = this
     const params = {
       productId: item.pid,
-      Sign: util.hexMD5(`productId=${item.pid}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`productId=${item.pid}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getExchangeApi(wx.getStorageSync('token'), params)
     const resultData = result.data
@@ -93,7 +99,7 @@ Page({
       disabled: false
     })
     if (resultData.IsSuccess) {
-      Toast.success('兑换成功')
+      Toast.success('商品兑换成功，请尽快去现场核销申领哦！')
     } else {
       this.setData({
         showTips: true,
@@ -112,7 +118,7 @@ Page({
   async getAdvert(){
     let that = this
     const params = {
-      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getAdvertApi(wx.getStorageSync('token'), params)
     const resultData = result.data

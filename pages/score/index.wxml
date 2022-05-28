@@ -2,7 +2,7 @@
 <view class="container">
   <image data-link="{{AdvertData.link}}" bindtap="goToAdvert" class="header" src="https://www.hzxune.com/{{AdvertData.pic}}"></image>
   <view class="search-box padding30">
-    <van-search value="{{ search }}" bind:search="getSearchList" bind:clear="onCancel"shape="round" placeholder="" />
+    <van-search value="{{ search }}" bind:change="onChange" bind:search="getSearchList" bind:clear="onCancel" shape="round" placeholder="" />
   </view>
   <view class="body">
     <view class="button-box">
@@ -10,13 +10,14 @@
       <van-button bindtap="changeType" round size="small" type="primary" plain="{{type==='all'}}">我能兑换</van-button>
     </view>
     <view class="product-list">
-      <view class="product-item" wx:for="{{ProductList}}" data-item="{{item}}"  wx:key="index">
+      <view class="product-item" wx:for="{{ProductList}}" data-item="{{item}}" wx:key="index">
         <image class="item-img" src="https://www.hzxune.com/{{item.Picurl}}" />
         <view class="item-name">{{item.productName}}</view>
         <view class="item-integral">{{item.integral}}</view>
         <view class="item-describe">{{item.describe}}</view>
         <view class="exchange-button">
-          <van-button data-item="{{item}}" disabled="{{disabled}}" bind:click="exchange" custom-class="button-class" round size="small" type="primary">我要兑换</van-button>
+          <van-button wx:if="{{item.sku>0}}" data-item="{{item}}" disabled="{{disabled}}" bind:click="exchange" custom-class="button-class" round size="small" type="primary">我要兑换</van-button>
+          <van-button wx:else disabled custom-class="button-class disabled-button" round size="small">暂无库存</van-button>
         </view>
       </view>
     </view>

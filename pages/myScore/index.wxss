@@ -4,13 +4,6 @@
   height: 266rpx;
 }
 
-.search-box {
-  /* margin-top: 36rpx; */
-}
-
-.van-search__content {
-  /* color: #ababab !important; */
-}
 
 .van-search {
   padding: 30rpx !important;
@@ -53,25 +46,30 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.exchange-button{
+
+.exchange-button {
   text-align: center;
   margin: 15rpx 0;
 }
-.button-class{
+
+.button-class {
   width: 200rpx;
 }
-.disabled-button{
+
+.disabled-button {
   background: #808080 !important;
   color: #ffffff !important;
 }
-.bg-share{
+
+.bg-share {
   width: 400rpx;
   height: 100rpx;
   position: fixed;
   top: 48vh;
   left: 175rpx;
 }
-.text-share{
+
+.text-share {
   width: 400rpx;
   height: 100rpx;
   position: fixed;

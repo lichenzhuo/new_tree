@@ -35,7 +35,8 @@ Page({
     showGif: false,
     myTreeImgUrlGif: '',
     bgAudio: '',
-    startSong:false
+    startSong:false,
+    showScoreHistory:false
   },
   onLoad() {
     wx.hideTabBar()
@@ -57,7 +58,7 @@ Page({
             key: "token",
             success(res) {
               const params = {
-                Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+                Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
               }
               Api.getRefreshApi(wx.getStorageSync('token'), params).then(res => {
                 const resultData = res.data
@@ -144,10 +145,12 @@ Page({
   },
   onClickHide() {
     this.setData({
+      historyList:[],
+      ActivityRulesText: '',
       showMyTree: false,
       showLoginDay: false,
       showActivityRules: false,
-      ActivityRulesText: ''
+      showScoreHistory:false,
     })
   },
   // 获取token
@@ -179,7 +182,7 @@ Page({
     this.startAnimation()
     // this.getBgAudio()
     let that = this
-    const Sign = util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    const Sign = util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     const token = wx.getStorageSync('token')
     let result = await Api.getMyTreeApi(token, Sign)
     // wx.hideLoading()
@@ -236,6 +239,7 @@ Page({
               canClick: true
             })
           }
+          this.getLoginEnergy()
         } else {
           // 没有树木信息，需要种树
           this.getTreeList()
@@ -252,7 +256,7 @@ Page({
       this.setData({
         phoneCode: e.detail.code
       })
-      const Sign = util.hexMD5(`openIdCode=${this.data.openIdCode}&phoneCode=${e.detail.code}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      const Sign = util.md5(`openIdCode=${this.data.openIdCode}&phoneCode=${e.detail.code}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
       const params = {
         openIdCode: this.data.openIdCode,
         phoneCode: e.detail.code,
@@ -267,39 +271,36 @@ Page({
     let that = this
     // wx.showLoading()
     const params = {
-      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getLoginDayApi(wx.getStorageSync('token'), params)
-
     const resultData = result.data
-
     if (resultData.IsSuccess) {
-      const params1 = {
-        type: 1,
-        Sign: util.hexMD5(`type=1&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
-      }
-      let result1 = await Api.getEnergyApi(wx.getStorageSync('token'), params1)
-      const resultData1 = result1.data
-      if (resultData1.Data) {
-        let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
-        obj.signDay = resultData1.Data.signDay
-        obj.Integral = resultData1.Data.Integral
-        obj.StorageEnergy = resultData1.Data.StorageEnergy
-        this.setData({
-          dayList: resultData.Data,
-          myTreeData: obj,
-          showLoginDay: true
-        })
-      } else {
-        this.setData({
-          dayList: resultData.Data,
-          showLoginDay: true
-        })
-      }
-      // wx.hideLoading()
-
+      this.setData({
+        dayList: resultData.Data,
+        showLoginDay: true
+      })
     } else {
       // token过期
+    }
+  },
+  // 获取登陆能量
+  async getLoginEnergy(){
+    const params = {
+      type: 1,
+      Sign: util.md5(`type=1&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getEnergyApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    if (resultData.Data) {
+      let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
+      obj.signDay = resultData.Data.signDay
+      obj.Integral = resultData.Data.Integral
+      obj.StorageEnergy = resultData.Data.StorageEnergy
+      this.setData({
+        myTreeData: obj
+      })
+    } else {
     }
   },
   // 浇水
@@ -308,7 +309,7 @@ Page({
       let that = this
       const params = {
         treeId: this.data.myTreeData.treeId,
-        Sign: util.hexMD5(`treeId=${this.data.myTreeData.treeId}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+        Sign: util.md5(`treeId=${this.data.myTreeData.treeId}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
       }
       let result = await Api.setTreeEnergyApi(wx.getStorageSync('token'), params)
       const resultData = result.data
@@ -413,7 +414,7 @@ Page({
     let that = this
     // wx.showLoading()
     const params = {
-      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getTreeListApi(wx.getStorageSync('token'), params)
     const resultData = result.data
@@ -461,7 +462,7 @@ Page({
     // wx.showLoading()
     const params = {
       treeId: this.data.selectTreeId,
-      Sign: util.hexMD5(`treeId=${this.data.selectTreeId}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`treeId=${this.data.selectTreeId}&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.createTreeApi(wx.getStorageSync('token'), params)
     const resultData = result.data
@@ -482,7 +483,7 @@ Page({
   // 活动规则
   async getActivityRules() {
     const params = {
-      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getActivityRulesApi(wx.getStorageSync('token'), params)
     const resultData = result.data
@@ -497,7 +498,7 @@ Page({
     let that = this
     const params1 = {
       type: 2,
-      Sign: util.hexMD5(`type=2&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`type=2&key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result1 = await Api.getEnergyApi(wx.getStorageSync('token'), params1)
     const resultData1 = result1.data
@@ -525,7 +526,7 @@ Page({
     }
     // const promise = new Promise(resolve => {
     //   resolve({
-    //     title: '绿城农场',
+    //     title: '绿粉农场',
 
     //   })
     // })
@@ -566,7 +567,7 @@ Page({
   async getBgAudio() {
     let that = this
     const params = {
-      Sign: util.hexMD5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getBgAudioApi(wx.getStorageSync('token'), params)
     const resultData = result.data
@@ -578,6 +579,18 @@ Page({
       this.setData({
         startSong:true
       })
+    })
+  },
+  async showHistory(){
+    let that = this
+    const params = {
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getIntegralListApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    this.setData({
+      historyList:resultData.Data,
+      showScoreHistory:true
     })
   },
   pauseSong(){
