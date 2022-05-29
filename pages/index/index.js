@@ -615,4 +615,19 @@ Page({
     // 当页面影藏时，暂停音乐
     this.audioCtx.pause()
   },
+  // 超出分享次数
+  overShareClick(){
+    let that = this
+    this.setData({
+      showOverShare:true,
+      overShareText:'今日分享已完成！'
+    }, () => {
+      setTimeout(() => {
+        that.setData({
+          showOverShare: false,
+          overShareText: ''
+        })
+      }, 1000)
+    })
+  }
 })
