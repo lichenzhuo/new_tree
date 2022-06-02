@@ -227,19 +227,21 @@ Page({
           if (resultData.Data.BackgroundPicurl) {
             this.setData({
               BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
-            })
-            this.setData({
-              myTreeData: resultData.Data,
-              myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
-              myScore: resultData.Data.Integral,
-              myEnergy: resultData.Data.StorageEnergy,
-              treePercent: resultData.Data.Ratio,
-              treePercentWidth: resultData.Data.Ratio * 220,
-              myTreeImgUrl: imgUrl + resultData.Data.Picurl,
-              canClick: true
-            })
+            }) 
           }
-          this.getLoginEnergy()
+          this.setData({
+            myTreeData: resultData.Data,
+            myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
+            myScore: resultData.Data.Integral,
+            myEnergy: resultData.Data.StorageEnergy,
+            treePercent: resultData.Data.Ratio,
+            treePercentWidth: resultData.Data.Ratio * 220,
+            myTreeImgUrl: imgUrl + resultData.Data.Picurl,
+            canClick: true
+          })
+          if (resultData.Data.isSign===0) {
+            this.getLoginEnergy()
+          }
         } else {
           // 没有树木信息，需要种树
           this.getTreeList()
@@ -306,7 +308,7 @@ Page({
   async setEnergy() {
     if (this.data.canClick) {
       let that = this
-      if (that.data.myTreeData.StorageEnergy <= 0) {
+      if (that.data.myEnergy <= 0) {
         that.setData({
           showOverShare: true,
           overShareText: '能量不足'
@@ -374,10 +376,10 @@ Page({
           }, 2000)
         })
         if (!resultData.IsSuccess) {
-          that.setData({
-            showMask: true,
-            canClick: true
-          })
+          // that.setData({
+          //   showMask: true,
+          //   canClick: true
+          // })
         }
         // if (resultData.IsSuccess) {
         //   if (resultData.Data.statu === 0) {
