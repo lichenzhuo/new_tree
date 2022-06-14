@@ -1,19 +1,25 @@
 <!--index.wxml-->
 <view class="bg" style="background: url({{BackgroundPicurl}}) no-repeat;background-size:750rpx 100%">
+  <!-- 背景音乐图片 -->
   <view class="song-box {{startSong?'':'pause'}}" bindtap="pauseSong">
     <image class="song-img" src="../../static/pause.png"></image>
   </view>
+  <!-- 登录集水滴图片 -->
   <image animation="{{animation}}" class="img-login zIndex" bindtap="loginDay" src="../../static/dljsd.png"></image>
+  <!-- 积分兑好礼图片 -->
   <image bindtap="gotoList" class="img-jifen zIndex" src="../../static/jfdhl.png"></image>
   <button wx:if="{{myTreeData.shareNum>0}}" id="shareId" style="visibility:hidden" open-type="share">
   </button>
+  <!-- 分享助力图片 -->
   <label wx:if="{{myTreeData.shareNum>0}}" for="shareId" class="label-share">
     <image wx:if="{{myTreeData.shareNum>0}}" animation="{{animation1}}" class="img-share zIndex" src="../../static/fxzl.png"></image>
   </label>
   <label wx:if="{{myTreeData.shareNum<1}}" for="shareId" class="label-share">
     <image wx:if="{{myTreeData.shareNum<1}}" bindtap="overShareClick" animation="{{animation1}}" class="img-share zIndex" src="../../static/fxzl.png"></image>
   </label>
+  <!-- 活动规则图片 -->
   <image bindtap="getActivityRules" class="img-huodong zIndex" src="../../static/hdgz.png"></image>
+  <!-- 果树勋章图片 -->
   <image animation="{{animation2}}" bindtap="getTreeList" class="img-tree zIndex" src="../../static/gsxz.png"></image>
   <!-- 我的树 -->
   <!-- <image class="my-tree" style="width:{{myTreeData.width}}rpx;height: {{myTreeData.height}}rpx;left:{{(750-myTreeData.width)/2}}rpx" src="{{myTreeImgUrl}}"></image> -->

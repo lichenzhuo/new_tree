@@ -27,42 +27,42 @@
   position: fixed;
   bottom: 75vh;
   left: 52rpx;
-  width: 122rpx;
-  height: 120rpx;
+  width: 125rpx;
+  height: 125rpx;
 }
 
 .img-jifen {
-  width: 122rpx !important;
-  height: 114rpx;
+  width: 125rpx !important;
+  height: 125rpx;
   position: fixed;
   bottom: 62.1vh;
   left: 52rpx;
 }
 
 .label-share {
-  width: 105rpx;
-  height: 102rpx;
+  width: 125rpx;
+  height: 125rpx;
   position: fixed;
-  bottom: 81.5vh;
+  bottom: 83vh;
   right: 52rpx;
 }
 
 .img-share {
-  width: 105rpx;
-  height: 102rpx;
+  width: 125rpx;
+  height: 125rpx;
 }
 
 .img-huodong {
-  width: 105rpx;
-  height: 102rpx;
+  width: 125rpx;
+  height: 125rpx;
   position: fixed;
   bottom: 68.9vh;
   right: 48rpx;
 }
 
 .img-tree {
-  width: 110rpx;
-  height: 102rpx;
+  width: 125rpx;
+  height: 125rpx;
   position: fixed;
   top: 35.8vh;
   right: 48rpx;
