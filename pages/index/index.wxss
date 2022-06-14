@@ -231,7 +231,7 @@
   position: fixed;
   top: 42vh;
   left: 0;
-  padding: 60rpx;
+  padding: 0 60rpx;
 }
 
 .myTree-box-item {

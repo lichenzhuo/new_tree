@@ -244,7 +244,7 @@ Page({
           }
         } else {
           // 没有树木信息，需要种树
-          this.getTreeList()
+          this.getTreeList('1')
         }
       } else {
         // token过期
