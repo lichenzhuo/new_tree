@@ -1,5 +1,5 @@
 /**index.wxss**/
-.song-box{
+.song-box {
   width: 70rpx;
   height: 70rpx;
   position: fixed;
@@ -8,21 +8,26 @@
   animation: rotator 10s linear infinite;
   animation-play-state: running;
 }
-.song-img{
+
+.song-img {
   width: 70rpx;
   height: 70rpx;
 }
+
 .pause {
   animation-play-state: paused;
 }
+
 @keyframes rotator {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 .img-login {
   position: fixed;
   bottom: 75vh;
@@ -75,27 +80,31 @@
   width: 540rpx;
   height: 810rpx;
 }
-.my-tree-gif{
+
+.my-tree-gif {
   position: fixed;
   bottom: 22.5vh;
   left: 105rpx;
   width: 540rpx;
   height: 810rpx;
 }
-.img-jiaoshui{
+
+.img-jiaoshui {
   width: 280rpx;
   height: 280rpx;
   position: fixed;
   /* top: 34.56vh; */
   right: 150rpx;
 }
-.score-box{
+
+.score-box {
   width: 200rpx;
   height: 174rpx;
-    position: fixed;
+  position: fixed;
   bottom: 5.3vh;
   left: 34rpx;
 }
+
 .img-score {
   width: 200rpx;
   height: 174rpx;
@@ -130,7 +139,7 @@
   font-weight: bold;
   position: absolute;
   bottom: 66rpx;
-  right: 0rpx; 
+  right: 0rpx;
   text-align: center;
 }
 
@@ -194,6 +203,7 @@
   top: 65vh;
   left: 290rpx;
 }
+
 .bg-myTree {
   width: 750rpx;
   height: 600rpx;
@@ -201,29 +211,34 @@
   top: 27vh;
   left: 0;
 }
-.myTree-box-top{
+
+.myTree-box-top {
   text-align: center;
   position: fixed;
   top: 28.5vh;
   left: 294rpx;
 }
-.myTree-box-top-img{
+
+.myTree-box-top-img {
   width: 90rpx;
   height: 90rpx;
   border-radius: 45rpx;
   overflow: hidden;
   margin-left: 36rpx;
 }
-.myTree-box-top-name{
+
+.myTree-box-top-name {
   font-size: 22rpx;
   margin-top: 15rpx;
   margin-left: 36rpx;
 }
-.myTree-box-top-time{
+
+.myTree-box-top-time {
   font-size: 24rpx;
   font-weight: bold;
   margin-top: 25rpx;
 }
+
 .myTree-box {
   max-width: 750rpx;
   display: flex;
@@ -239,6 +254,7 @@
   margin-bottom: 45rpx;
   position: relative;
 }
+
 .myTree-box-item:nth-of-type(4) {
   margin-right: 0;
   margin-bottom: 45rpx;
@@ -255,6 +271,7 @@
   color: #24b436;
   text-align: center;
 }
+
 .img-mymask {
   width: 100rpx;
   height: 100rpx;
@@ -265,35 +282,41 @@
   left: 0;
   opacity: 0.7;
 }
-.bg-login{
+
+.bg-login {
   width: 600rpx;
   height: 200rpx;
   position: fixed;
   top: 33vh;
   left: 75rpx;
 }
-.login-box{
+
+.login-box {
   position: fixed;
   top: 33vh;
   left: 75rpx;
 }
-.login-box-title{
+
+.login-box-title {
   font-size: 30rpx;
   font-weight: bold;
   margin-left: 200rpx;
   margin-top: 4rpx;
 }
-.login-box-days{
+
+.login-box-days {
   width: 540rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10rpx 35rpx;
 }
-.login-box-days-item{
+
+.login-box-days-item {
   position: relative;
 }
-.days-number{
+
+.days-number {
   position: absolute;
   top: 30rpx;
   left: 0;
@@ -303,23 +326,27 @@
   width: 100rpx;
   text-align: center;
 }
-.days-img{
+
+.days-img {
   width: 100rpx;
   height: 100rpx;
 }
-.days-time{
+
+.days-time {
   font-size: 24rpx;
   font-weight: bold;
   text-align: center;
 }
-.bg-share{
+
+.bg-share {
   width: 400rpx;
   height: 100rpx;
   position: fixed;
   top: 48vh;
   left: 175rpx;
 }
-.text-share{
+
+.text-share {
   width: 400rpx;
   height: 100rpx;
   position: fixed;
@@ -328,6 +355,7 @@
   text-align: center;
   margin-top: 25rpx;
 }
+
 .bg-rule {
   width: 750rpx;
   height: 600rpx;
@@ -335,13 +363,15 @@
   top: 27vh;
   left: 0;
 }
-.rule-box{
+
+.rule-box {
   height: 450rpx;
   position: fixed;
   top: 29vh;
   left: 0;
 }
-.rule-text{
+
+.rule-text {
   display: block;
   height: 450rpx;
   width: 650rpx;
@@ -349,34 +379,40 @@
   margin-left: 50rpx;
   overflow: scroll;
 }
-.percent-box{
+
+.percent-box {
   display: flex;
   justify-content: center;
   margin-top: 78.94vh;
 }
-.percent-container{
-width: 240rpx;
-height: 36rpx;
-background: url('https://www.hzxune.com/mtscs/123.png') no-repeat;
-background-size: 240rpx 36rpx;
-display: flex;
-align-items: center;
-padding-left: 8rpx;
+
+.percent-container {
+  width: 240rpx;
+  height: 36rpx;
+  background: url('https://www.hzxune.com/mtscs/123.png') no-repeat;
+  background-size: 240rpx 36rpx;
+  display: flex;
+  align-items: center;
+  padding-left: 8rpx;
 }
+
 .view-percent {
   display: block;
   height: 24rpx;
   background: #f96029;
   border-radius: 14rpx;
 }
-.text-percent{
+
+.text-percent {
   text-align: center;
   font-size: 26rpx;
   color: #333333;
 }
-.zIndex{
+
+.zIndex {
   z-index: 99;
 }
+
 .bg-history {
   width: 600rpx;
   height: 500rpx;
@@ -384,39 +420,74 @@ padding-left: 8rpx;
   top: 33vh;
   left: 75rpx;
 }
-.history-box{
+
+.history-box {
   width: 600rpx;
   height: 500rpx;
   position: fixed;
   top: 33vh;
   left: 75rpx;
 }
-.history-title{
+
+.history-title {
   height: 86rpx;
   line-height: 86rpx;
   text-align: center;
   font-size: 30rpx;
   font-weight: bold;
 }
-.history-list{
+
+.history-list {
   padding: 0 50rpx;
   max-height: 410rpx;
   overflow: scroll;
 }
-.history-list-item{
+
+.history-list-item {
   padding: 35rpx 0 20rpx;
   border-bottom: 1rpx dashed #999999;
 }
-.item-top{
+
+.item-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.history-text{
+
+.history-text {
   font-size: 26rpx;
   font-weight: bold;
 }
-.item-bottom{
+
+.item-bottom {
   margin-top: 4rpx;
   font-size: 26rpx;
+}
+
+/* 广告弹框 */
+.index-box {
+  height: 530rpx;
+  width: 750rpx;
+  position: relative;
+}
+
+.index-advert-bg {
+  height: 530rpx;
+  width: 750rpx;
+}
+
+.index-advert-img {
+  width: 650rpx;
+  height: 450rpx;
+  position: absolute;
+  top: 40rpx;
+  left: 50rpx;
+}
+
+.van-popup {
+  background-color: transparent !important;
+  /* opacity: 0; */
+}
+.van-popup--safe{
+  padding-bottom: 0 !important;
 }

@@ -179,3 +179,12 @@
   </view>
 </van-overlay>
 <audio loop id="bgAudio" src="{{bgAudio}}"></audio>
+<!-- 广告弹框 -->
+<van-popup show="{{ showIndexAdvert }}" overlay-style="background-color: transparent !important" position="bottom" bind:close="closeIndexAdvert">
+  <view class="index-box">
+    <image class="index-advert-bg" src="/static/IndexAdvertBg.png"></image>
+    <image class="index-advert-img" src="{{IndexAdvertUrl}}"></image>
+  </view>
+</van-popup>
+<!-- 透明遮罩层 -->
+<van-overlay show="{{ showIndexAdvertMask }}" custom-style="background-color: transparent !important"/>

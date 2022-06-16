@@ -36,7 +36,10 @@ Page({
     myTreeImgUrlGif: '',
     bgAudio: '',
     startSong: false,
-    showScoreHistory: false
+    showScoreHistory: false,
+    showIndexAdvert: false,
+    IndexAdvertUrl: '',
+    showIndexAdvertMask:false
   },
   onLoad() {
     wx.hideTabBar()
@@ -227,7 +230,7 @@ Page({
           if (resultData.Data.BackgroundPicurl) {
             this.setData({
               BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
-            }) 
+            })
           }
           this.setData({
             myTreeData: resultData.Data,
@@ -239,8 +242,9 @@ Page({
             myTreeImgUrl: imgUrl + resultData.Data.Picurl,
             canClick: true
           })
-          if (resultData.Data.isSign===0) {
+          if (resultData.Data.isSign === 0) {
             this.getLoginEnergy()
+            this.getIndexAdvert()
           }
         } else {
           // 没有树木信息，需要种树
@@ -303,6 +307,38 @@ Page({
         myTreeData: obj
       })
     } else {}
+  },
+  // 获取首页广告
+  async getIndexAdvert() {
+    let that = this
+    that.setData({
+      showIndexAdvertMask:true
+    })
+    const params = {
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getIndexAdvertApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    console.log(resultData)
+    this.setData({
+      IndexAdvertUrl: imgUrl + resultData.Data.pic,
+      showIndexAdvertMask:false
+    }, () => {
+      that.setData({
+        showIndexAdvert: true
+      }, () => {
+        setTimeout(() => {
+          that.setData({
+            showIndexAdvert: false
+          })
+        }, 10000)
+      })
+    })
+  },
+  closeIndexAdvert() {
+    this.setData({
+      showIndexAdvert: false
+    })
   },
   // 浇水
   async setEnergy() {

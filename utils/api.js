@@ -203,6 +203,18 @@ const getIntegralListApi = (token,data) => {
     }
   })
 }
+const getIndexAdvertApi = (token,data) => {
+  return http({
+    url: '/Tree/TreeAdvert',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
 
 export default  {
   getTokenApi,
@@ -220,5 +232,6 @@ export default  {
   getAdvertApi,
   getExchangeListApi,
   getExchangeWriteOffApi,
-  getIntegralListApi
+  getIntegralListApi,
+  getIndexAdvertApi
 }
