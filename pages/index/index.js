@@ -5,6 +5,7 @@ import Toast from '@vant/weapp/toast/toast'
 var util = require('../../utils/md5.js') // 引入md5.js文件
 const imgUrl = 'https://www.hzxune.com'
 import Api from '../../utils/api.js'
+import download from '../../utils/download.js'
 const audioCtx = '';
 Page({
   data: {
@@ -39,7 +40,7 @@ Page({
     showScoreHistory: false,
     showIndexAdvert: false,
     IndexAdvertUrl: '',
-    showIndexAdvertMask:false
+    showIndexAdvertMask: false
   },
   onLoad() {
     wx.hideTabBar()
@@ -193,32 +194,7 @@ Page({
     if (type === 'delay') {
       setTimeout(() => {
         if (resultData) {
-          wx.hideLoading()
-          if (resultData.Data.BackgroundPicurl) {
-            this.setData({
-              BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
-            })
-          }
-          that.setData({
-            showGif: false,
-            showOverShare: true,
-            overShareText: text,
-            myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
-            myTreeData: resultData.Data,
-            myScore: resultData.Data.Integral,
-            myEnergy: resultData.Data.StorageEnergy,
-            treePercent: resultData.Data.Ratio,
-            treePercentWidth: resultData.Data.Ratio * 220,
-            myTreeImgUrl: imgUrl + resultData.Data.Picurl,
-            canClick: true
-          }, () => {
-            setTimeout(() => {
-              that.setData({
-                showOverShare: false,
-                overShareText: ''
-              })
-            }, 1000)
-          })
+          this.delayGetMyTree(resultData, text)
         } else {
           wx.showLoading()
         }
@@ -227,21 +203,52 @@ Page({
       wx.hideLoading()
       if (resultData.IsSuccess) {
         if (resultData.Data) {
-          if (resultData.Data.BackgroundPicurl) {
+          // 背景图
+          if (await this.checkUrl(imgUrl + resultData.Data.BackgroundPicurl) === 2) {
+            console.log('有背景图')
+            this.setData({
+              BackgroundPicurl: wx.getStorageSync(imgUrl + resultData.Data.BackgroundPicurl)
+            })
+          } else {
             this.setData({
               BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
             })
+            download.downloadImg(imgUrl + resultData.Data.BackgroundPicurl)
+          }
+          // 生长gif图
+          if (await this.checkUrl(imgUrl + resultData.Data.gifPicurl) === 2) {
+            console.log('有gif')
+            this.setData({
+              myTreeImgUrlGif: wx.getStorageSync(imgUrl + resultData.Data.gifPicurl)
+            })
+          } else {
+            this.setData({
+              myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl
+            })
+            download.downloadImg(imgUrl + resultData.Data.gifPicurl)
+          }
+          // 树苗图片
+          if (await this.checkUrl(imgUrl + resultData.Data.Picurl) === 2) {
+            console.log('有树苗图片')
+            this.setData({
+              myTreeImgUrl: wx.getStorageSync(imgUrl + resultData.Data.Picurl)
+            })
+          } else {
+            this.setData({
+              myTreeImgUrl: imgUrl + resultData.Data.Picurl
+            })
+            download.downloadImg(imgUrl + resultData.Data.Picurl)
           }
           this.setData({
             myTreeData: resultData.Data,
-            myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl,
             myScore: resultData.Data.Integral,
             myEnergy: resultData.Data.StorageEnergy,
             treePercent: resultData.Data.Ratio,
             treePercentWidth: resultData.Data.Ratio * 220,
-            myTreeImgUrl: imgUrl + resultData.Data.Picurl,
             canClick: true
           })
+          // 获取树木缓存信息
+          // this.getTreeCache()
           if (resultData.Data.isSign === 0) {
             this.getLoginEnergy()
             this.getIndexAdvert()
@@ -255,6 +262,116 @@ Page({
       }
     }
     // wx.showLoading()
+  },
+  delayGetMyTree(resultData, text) {
+    wx.hideLoading()
+    const fs = wx.getFileSystemManager()
+    // 背景图
+    if (wx.getStorageSync(imgUrl + resultData.Data.BackgroundPicurl)) {
+      fs.access({
+        path: imgUrl + resultData.Data.BackgroundPicurl,
+        success(res) {
+          // 文件存在
+          this.setData({
+            BackgroundPicurl: wx.getStorageSync(imgUrl + resultData.Data.BackgroundPicurl)
+          })
+        },
+        fail(res) {
+          // 文件不存在或其他错误
+          this.setData({
+            BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
+          })
+          download.downloadImg(imgUrl + resultData.Data.BackgroundPicurl)
+        }
+      })
+    } else {
+      this.setData({
+        BackgroundPicurl: imgUrl + resultData.Data.BackgroundPicurl
+      })
+      download.downloadImg(imgUrl + resultData.Data.BackgroundPicurl)
+    }
+    // 生长gif图
+    if (wx.getStorageSync(imgUrl + resultData.Data.gifPicurl)) {
+      fs.access({
+        path: imgUrl + resultData.Data.gifPicurl,
+        success(res) {
+          // 文件存在
+          this.setData({
+            myTreeImgUrlGif: wx.getStorageSync(imgUrl + resultData.Data.gifPicurl)
+          })
+        },
+        fail(res) {
+          // 文件不存在或其他错误
+          this.setData({
+            myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl
+          })
+          download.downloadImg(imgUrl + resultData.Data.gifPicurl)
+        }
+      })
+    } else {
+      this.setData({
+        myTreeImgUrlGif: imgUrl + resultData.Data.gifPicurl
+      })
+      download.downloadImg(imgUrl + resultData.Data.gifPicurl)
+    }
+    // 树苗图片
+    if (wx.getStorageSync(imgUrl + resultData.Data.Picurl)) {
+      fs.access({
+        path: imgUrl + resultData.Data.Picurl,
+        success(res) {
+          // 文件存在
+          this.setData({
+            myTreeImgUrl: wx.getStorageSync(imgUrl + resultData.Data.Picurl)
+          })
+        },
+        fail(res) {
+          // 文件不存在或其他错误
+          this.setData({
+            myTreeImgUrl: imgUrl + resultData.Data.Picurl
+          })
+          download.downloadImg(imgUrl + resultData.Data.Picurl)
+        }
+      })
+    } else {
+      this.setData({
+        myTreeImgUrl: imgUrl + resultData.Data.Picurl
+      })
+      download.downloadImg(imgUrl + resultData.Data.Picurl)
+    }
+    this.setData({
+      showGif: false,
+      showOverShare: true,
+      overShareText: text,
+      myTreeData: resultData.Data,
+      myScore: resultData.Data.Integral,
+      myEnergy: resultData.Data.StorageEnergy,
+      treePercent: resultData.Data.Ratio,
+      treePercentWidth: resultData.Data.Ratio * 220,
+      canClick: true
+    }, () => {
+      setTimeout(() => {
+        that.setData({
+          showOverShare: false,
+          overShareText: ''
+        })
+      }, 1000)
+    })
+  },
+  // 判断图片路径是否被缓存和图片是否下载
+  async checkUrl(url) {
+    const fs = wx.getFileSystemManager()
+    const path = wx.getStorageSync(url)
+    if (path) {
+      try {
+        fs.accessSync(path)
+        return 2
+      } catch (e) {
+        return 3
+      }
+    } else {
+      console.log(url, 4)
+      return 4
+    }
   },
   // 获取手机号
   getPhoneNumber(e) {
@@ -308,21 +425,39 @@ Page({
       })
     } else {}
   },
+  // 获取树木缓存信息
+  async getTreeCache() {
+    let that = this
+    const params = {
+      Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
+    }
+    let result = await Api.getTreeCacheApi(wx.getStorageSync('token'), params)
+    const resultData = result.data
+    console.log(resultData)
+    download.downloadImg(imgUrl + resultData.Data.BackgroundPicurl)
+    resultData.Data.treeStages.forEach(item => {
+      if (item.Picurl) {
+        download.downloadImg(imgUrl + item.Picurl)
+      }
+      if (item.gifPicurl) {
+        download.downloadImg(imgUrl + item.gifPicurl)
+      }
+    })
+  },
   // 获取首页广告
   async getIndexAdvert() {
     let that = this
     that.setData({
-      showIndexAdvertMask:true
+      showIndexAdvertMask: true
     })
     const params = {
       Sign: util.md5(`key=13cd9f36-d186-4038-ab48-4b86b187fb70`)
     }
     let result = await Api.getIndexAdvertApi(wx.getStorageSync('token'), params)
     const resultData = result.data
-    console.log(resultData)
     this.setData({
       IndexAdvertUrl: imgUrl + resultData.Data.pic,
-      showIndexAdvertMask:false
+      showIndexAdvertMask: false
     }, () => {
       that.setData({
         showIndexAdvert: true
@@ -335,6 +470,7 @@ Page({
       })
     })
   },
+  // 关闭广告弹框
   closeIndexAdvert() {
     this.setData({
       showIndexAdvert: false
@@ -394,7 +530,7 @@ Page({
                   treePercent: resultData.Data.Ratio,
                   treePercentWidth: resultData.Data.Ratio * 220,
                   myEnergy: resultData.Data.StorageEnergy,
-                  myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl,
+                  // myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl,
                 })
               } else {
                 // that.setData({
@@ -411,51 +547,7 @@ Page({
             }
           }, 2000)
         })
-        if (!resultData.IsSuccess) {
-          // that.setData({
-          //   showMask: true,
-          //   canClick: true
-          // })
-        }
-        // if (resultData.IsSuccess) {
-        //   if (resultData.Data.statu === 0) {
-        //     let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
-        //     obj.explain = resultData.Data.explain
-        //     that.setData({
-        //       myTreeData: obj,
-        //       myEnergy: resultData.Data.StorageEnergy,
-        //       treePercent: resultData.Data.Ratio,
-        //       treePercentWidth: resultData.Data.Ratio * 220,
-        //     })
-        //   } else if (resultData.Data.statu === 1) {
-        //     that.getMyTree('delay', Number(that.data.myTreeData.gifTime) * 1000, resultData.Data.tips)
-        //     let obj = JSON.parse(JSON.stringify(this.data.myTreeData))
-        //     obj.Ratio = resultData.Data.Ratio
-        //     obj.StorageEnergy = resultData.Data.StorageEnergy
-        //     obj.explain = resultData.Data.explain
-        //     that.setData({
-        //       showGif: true,
-        //       myTreeData: obj,
-        //       treePercent: resultData.Data.Ratio,
-        //       treePercentWidth: resultData.Data.Ratio * 220,
-        //       myEnergy: resultData.Data.StorageEnergy,
-        //       myTreeImgUrlGif: imgUrl + that.data.myTreeData.gifPicurl,
-        //     })
-        //   } else {
-        //     Toast({
-        //       type: 'success',
-        //       message: '种树完成，可以种下一颗了',
-        //       onClose: () => {
-        //         that.getTreeList('1')
-        //       },
-        //     });
-        //   }
-        // } 
-        // else {
-        //   that.setData({
-        //     showMask: true
-        //   })
-        // }
+        if (!resultData.IsSuccess) {}
       }
     }
 
@@ -615,6 +707,7 @@ Page({
       myTreeImgUrlGif: ''
     })
   },
+  // 获取背景音乐
   async getBgAudio() {
     let that = this
     const params = {
@@ -632,6 +725,7 @@ Page({
       })
     })
   },
+  // 获取积分使用记录
   async showHistory() {
     let that = this
     const params = {
@@ -644,6 +738,7 @@ Page({
       showScoreHistory: true
     })
   },
+  // 暂停/播放音乐
   pauseSong() {
     if (this.data.startSong) {
       this.audioCtx.pause()
@@ -657,13 +752,15 @@ Page({
       })
     }
   },
+  // 去积分兑换好礼
   gotoList() {
     wx.switchTab({
       url: '../score/index',
     })
   },
+  // 页面隐藏
   onHide() {
-    // 当页面影藏时，暂停音乐
+    // 当页面隐藏时，暂停音乐
     this.audioCtx.pause()
   },
   // 超出分享次数

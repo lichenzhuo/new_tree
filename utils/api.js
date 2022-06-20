@@ -215,7 +215,18 @@ const getIndexAdvertApi = (token,data) => {
     }
   })
 }
-
+const getTreeCacheApi = (token,data) => {
+  return http({
+    url: '/Tree/TreeCache',
+    method: 'POST',
+    header:{
+      'Authorization': 'Bearer ' + token
+    },
+    data: {
+      ...data
+    }
+  })
+}
 export default  {
   getTokenApi,
   getMyTreeApi,
@@ -233,5 +244,6 @@ export default  {
   getExchangeListApi,
   getExchangeWriteOffApi,
   getIntegralListApi,
-  getIndexAdvertApi
+  getIndexAdvertApi,
+  getTreeCacheApi
 }
